@@ -1,0 +1,760 @@
+/* ==========================================================================
+   SpendSense Themes: Dark (Obsidian/Lime), Light (Clean), Spider-Man (Midnight/Crimson/Cyan)
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. Theme Color Tokens
+   -------------------------------------------------------------------------- */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --theme-bg: #080d0a;
+  --theme-panel: #101713;
+  --theme-panel-2: #151e18;
+  --theme-line: #29372d;
+  --theme-text: #edf4ee;
+  --theme-muted: #9aa99e;
+  --theme-accent: #b8e86a;
+  --theme-secondary: #749e47;
+  --theme-menu: #121a14;
+  --theme-spider-web: rgba(255, 255, 255, 0.45);
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+  --theme-bg: #f1f4f1;
+  --theme-panel: #fbfcfa;
+  --theme-panel-2: #f6f8f5;
+  --theme-line: #dce4dc;
+  --theme-text: #19271e;
+  --theme-muted: #56665b;
+  --theme-accent: #789b36;
+  --theme-secondary: #547a3b;
+  --theme-menu: #ffffff;
+  --theme-spider-web: rgba(255, 255, 255, 0.65);
+}
+
+:root[data-theme="spider-man"] {
+  color-scheme: dark;
+  --bg: #070b14;
+  --panel: #0d1527;
+  --panel-2: #131f38;
+  --line: #1c2b48;
+  --text: #f8fafc;
+  --muted: #94a3b8;
+  --lime: #e63946;
+  --theme-bg: #070b14;
+  --theme-panel: #0d1527;
+  --theme-panel-2: #131f38;
+  --theme-line: #1c2b48;
+  --theme-text: #f8fafc;
+  --theme-muted: #94a3b8;
+  --theme-accent: #e63946;
+  --theme-secondary: #00f0ff;
+  --theme-menu: #0b1222;
+  --theme-spider-web: #ffffff;
+}
+
+/* --------------------------------------------------------------------------
+   2. Theme Dropdown Switcher (glassmorphic menu + bubble wash)
+   -------------------------------------------------------------------------- */
+.theme-switcher {
+  position: relative;
+  display: inline-flex;
+  flex-shrink: 0;
+  max-width: 100%;
+  z-index: 40;
+}
+
+.theme-switcher-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 34px;
+  padding: 6px 11px 6px 10px;
+  border: 1px solid color-mix(in srgb, var(--theme-line, #29372d) 88%, transparent);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--theme-menu, #121a14) 88%, transparent);
+  color: var(--theme-text, #edf4ee);
+  cursor: pointer;
+  user-select: none;
+  font-family: inherit;
+  box-shadow: inset 0 1px rgba(255, 255, 255, 0.05);
+  transition:
+    color 0.3s ease,
+    background-color 0.3s ease,
+    border-color 0.3s ease,
+    box-shadow 0.28s ease;
+}
+
+.theme-switcher-trigger:hover,
+.theme-switcher.is-open .theme-switcher-trigger {
+  border-color: color-mix(in srgb, var(--theme-accent, #b8e86a) 55%, transparent);
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--theme-accent, #b8e86a) 28%, transparent),
+    0 0 18px color-mix(in srgb, var(--theme-accent, #b8e86a) 22%, transparent),
+    inset 0 1px rgba(255, 255, 255, 0.08);
+}
+
+.theme-switcher-trigger:focus-visible {
+  outline: 2px solid var(--theme-secondary, #749e47);
+  outline-offset: 2px;
+}
+
+.theme-switcher-trigger-icon {
+  display: grid;
+  place-items: center;
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  color: var(--theme-accent, #b8e86a);
+  transition: color 0.3s ease;
+}
+
+.theme-switcher-trigger-label {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: -0.2px;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.theme-switcher-chevron {
+  display: grid;
+  place-items: center;
+  color: var(--theme-muted, #9aa99e);
+  margin-left: 1px;
+}
+
+.theme-variant-compact .theme-switcher-trigger {
+  min-height: 32px;
+  padding: 5px 10px 5px 9px;
+  gap: 6px;
+}
+
+.theme-variant-compact .theme-switcher-trigger-label {
+  font-size: 11px;
+}
+
+.theme-switcher-auth .theme-switcher-trigger {
+  backdrop-filter: blur(14px) saturate(140%);
+}
+
+.theme-switcher-menu {
+  z-index: 1200;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 6px;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(16px) saturate(140%);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
+  box-shadow:
+    0 18px 48px rgba(0, 0, 0, 0.45),
+    inset 0 1px rgba(255, 255, 255, 0.08);
+  color: #f4f7f4;
+}
+
+:root[data-theme="light"] .theme-switcher-menu {
+  background: rgba(16, 22, 18, 0.82);
+  color: #f4f7f4;
+}
+
+.theme-switcher-option {
+  display: grid;
+  grid-template-columns: 18px minmax(0, 1fr) 16px;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid transparent;
+  border-radius: 11px;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  text-align: left;
+  font-family: inherit;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.theme-switcher-option:hover,
+.theme-switcher-option:focus-visible {
+  background: rgba(255, 255, 255, 0.07);
+  border-color: rgba(255, 255, 255, 0.08);
+  outline: none;
+}
+
+.theme-switcher-option.is-selected {
+  background: color-mix(in srgb, var(--theme-accent, #b8e86a) 16%, transparent);
+  border-color: color-mix(in srgb, var(--theme-accent, #b8e86a) 34%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--theme-accent, #b8e86a) 12%, transparent);
+}
+
+.theme-switcher-option-icon {
+  display: grid;
+  place-items: center;
+  width: 18px;
+  height: 18px;
+  color: #d7ecd0;
+}
+
+.theme-switcher-option.is-selected .theme-switcher-option-icon {
+  color: var(--theme-accent, #b8e86a);
+}
+
+.theme-option-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  line-height: 1.3;
+}
+
+.theme-option-copy strong {
+  font-size: 12px;
+  font-weight: 650;
+  letter-spacing: -0.2px;
+}
+
+.theme-option-copy small {
+  font-size: 10px;
+  opacity: 0.68;
+  font-weight: 450;
+}
+
+.theme-switcher-check {
+  display: grid;
+  place-items: center;
+  color: var(--theme-accent, #b8e86a);
+}
+
+.theme-bubble-layer {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1300;
+  overflow: hidden;
+}
+
+.theme-bubble,
+.theme-bubble-wash {
+  position: fixed;
+  border-radius: 999px;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  will-change: transform, opacity;
+}
+
+.theme-bubble {
+  background: radial-gradient(circle at 35% 30%, rgba(255, 255, 255, 0.55), transparent 48%),
+    color-mix(in srgb, var(--bubble-accent, #b8e86a) 55%, transparent);
+  box-shadow:
+    0 0 12px color-mix(in srgb, var(--bubble-accent, #b8e86a) 55%, transparent),
+    inset 0 0 8px rgba(255, 255, 255, 0.28);
+  border: 1px solid color-mix(in srgb, var(--bubble-accent, #b8e86a) 40%, white);
+}
+
+.theme-bubble-wash {
+  width: 28px;
+  height: 28px;
+  background: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--bubble-accent, #b8e86a) 42%, transparent) 0%,
+    color-mix(in srgb, var(--bubble-accent, #b8e86a) 14%, transparent) 42%,
+    transparent 72%
+  );
+  mix-blend-mode: screen;
+}
+
+@media (max-width: 440px) {
+  .theme-switcher-trigger {
+    min-height: 32px;
+    padding: 5px 9px 5px 8px;
+  }
+
+  .theme-switcher-trigger-label {
+    font-size: 11px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .theme-switcher-trigger,
+  .theme-switcher-option {
+    transition: none;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   3. Spider-Man Theme Comprehensive Component Overrides
+   -------------------------------------------------------------------------- */
+:root[data-theme="spider-man"] body {
+  background: radial-gradient(ellipse 70% 50% at 75% 0%, rgba(230, 57, 70, 0.12) 0%, transparent 60%),
+              radial-gradient(ellipse 60% 60% at 10% 85%, rgba(0, 240, 255, 0.08) 0%, transparent 60%),
+              #070b14;
+  color: #f8fafc;
+}
+
+:root[data-theme="spider-man"] ::selection {
+  background: rgba(230, 57, 70, 0.45);
+  color: #ffffff;
+}
+
+:root[data-theme="spider-man"] .app-shell {
+  background: radial-gradient(ellipse 68% 55% at 74% 2%, rgba(230, 57, 70, 0.1) 0%, transparent 68%),
+              radial-gradient(ellipse 45% 42% at 4% 86%, rgba(0, 240, 255, 0.06) 0%, transparent 72%),
+              #070b14;
+  color: #f8fafc;
+}
+
+:root[data-theme="spider-man"] .sidebar {
+  background: linear-gradient(180deg, #0a101f, #070b15 78%);
+  border-right-color: #1a2740;
+}
+
+:root[data-theme="spider-man"] .topbar {
+  background: #090f1de0;
+  border-bottom-color: #1a2740;
+  backdrop-filter: blur(20px) saturate(140%);
+}
+
+:root[data-theme="spider-man"] .brand-mark {
+  background: linear-gradient(145deg, #ef4454, #d62839);
+  color: #ffffff;
+  box-shadow: 0 0 16px rgba(230, 57, 70, 0.4);
+}
+
+:root[data-theme="spider-man"] .brand-dot {
+  color: #e63946;
+}
+
+:root[data-theme="spider-man"] .workspace-switch {
+  background: #0e172a;
+  border-color: #1c2b48;
+}
+
+:root[data-theme="spider-man"] .workspace-switch:hover {
+  background: #14223d;
+  border-color: #273e6b;
+}
+
+:root[data-theme="spider-man"] .workspace-avatar,
+:root[data-theme="spider-man"] .profile-avatar,
+:root[data-theme="spider-man"] .top-avatar {
+  background: linear-gradient(145deg, #1e3056, #0e182e);
+  color: #00f0ff;
+  border: 1px solid #273e6b;
+}
+
+:root[data-theme="spider-man"] .nav-item {
+  color: #94a3b8;
+}
+
+:root[data-theme="spider-man"] .nav-item:hover {
+  background: #111d35;
+  color: #f8fafc;
+}
+
+:root[data-theme="spider-man"] .nav-item:hover svg {
+  color: #00f0ff;
+}
+
+:root[data-theme="spider-man"] .nav-item.active {
+  background: linear-gradient(90deg, rgba(230, 57, 70, 0.22), rgba(13, 21, 39, 0.7));
+  border-color: rgba(230, 57, 70, 0.35);
+  color: #ffffff;
+  box-shadow: inset 2px 0 #e63946;
+}
+
+:root[data-theme="spider-man"] .nav-item.active svg {
+  color: #e63946;
+}
+
+:root[data-theme="spider-man"] .upgrade-card {
+  background: linear-gradient(145deg, #111c33, #090f1d);
+  border-color: #1e3056;
+}
+
+:root[data-theme="spider-man"] .upgrade-icon {
+  background: #1c2c4c;
+  color: #e63946;
+}
+
+:root[data-theme="spider-man"] .upgrade-card button {
+  color: #00f0ff;
+}
+
+:root[data-theme="spider-man"] .live-dot {
+  background: #e63946;
+  box-shadow: 0 0 10px rgba(230, 57, 70, 0.8);
+}
+
+:root[data-theme="spider-man"] .sample-badge {
+  background: #132038;
+  border-color: #233961;
+  color: #38bdf8;
+}
+
+:root[data-theme="spider-man"] .primary-button {
+  background: linear-gradient(145deg, #ef4454, #d62839);
+  border-color: #ff6b7a;
+  color: #ffffff;
+  box-shadow: 0 4px 18px rgba(230, 57, 70, 0.35);
+}
+
+:root[data-theme="spider-man"] .primary-button:hover {
+  background: linear-gradient(145deg, #ff5465, #e63244);
+  box-shadow: 0 6px 24px rgba(230, 57, 70, 0.5);
+}
+
+:root[data-theme="spider-man"] .stat-card,
+:root[data-theme="spider-man"] .panel {
+  background: linear-gradient(145deg, #0e172c, #091020);
+  border-color: #1c2c4c;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.35), inset 0 1px rgba(255, 255, 255, 0.04);
+}
+
+:root[data-theme="spider-man"] .stat-card:hover {
+  background: linear-gradient(145deg, #121e38, #0b1326);
+  border-color: #273e6b;
+}
+
+:root[data-theme="spider-man"] .stat-card:first-child {
+  background: linear-gradient(135deg, #18223f, #0d152a);
+  border-color: #273e6b;
+}
+
+:root[data-theme="spider-man"] .stat-lime {
+  --tone: #e63946;
+  --spark: #ef4454;
+}
+
+:root[data-theme="spider-man"] .stat-blue {
+  --tone: #00f0ff;
+  --spark: #38bdf8;
+}
+
+:root[data-theme="spider-man"] .period-pill,
+:root[data-theme="spider-man"] .select-pill {
+  background: #0d162a;
+  border-color: #1c2b48;
+  color: #cbd5e1;
+}
+
+:root[data-theme="spider-man"] .period-pill:hover {
+  border-color: #273e6b;
+  box-shadow: 0 0 0 1px rgba(0, 240, 255, 0.15);
+}
+
+:root[data-theme="spider-man"] .period-pill>svg:first-child {
+  color: #00f0ff;
+}
+
+:root[data-theme="spider-man"] .period-pill select option {
+  background: #0d162a;
+  color: #f1f5f9;
+}
+
+:root[data-theme="spider-man"] .planet-panel {
+  background: radial-gradient(ellipse at 50% 52%, rgba(230, 57, 70, 0.14), transparent 50%),
+              radial-gradient(ellipse at 50% 100%, rgba(0, 240, 255, 0.08), transparent 60%),
+              linear-gradient(150deg, #0c1426, #070b15 78%);
+  border-color: #1f3154;
+}
+
+:root[data-theme="spider-man"] .planet-glow {
+  background: radial-gradient(ellipse, rgba(230, 57, 70, 0.28), transparent 70%);
+}
+
+:root[data-theme="spider-man"] .planet-center-label strong {
+  color: #ffffff;
+}
+
+:root[data-theme="spider-man"] .planet-center-label span {
+  color: #38bdf8;
+}
+
+:root[data-theme="spider-man"] .orbit-label {
+  background: #091020e6;
+  border-color: #22375d;
+  color: #e2e8f0;
+}
+
+:root[data-theme="spider-man"] .orbit-label:hover {
+  background: #111d38;
+  border-color: #00f0ff;
+  color: #ffffff;
+}
+
+:root[data-theme="spider-man"] .planet-legend button {
+  color: #00f0ff;
+}
+
+:root[data-theme="spider-man"] .legend-lime {
+  background: #e63946;
+}
+
+:root[data-theme="spider-man"] .legend-blue {
+  background: #00f0ff;
+}
+
+:root[data-theme="spider-man"] .chart-panel {
+  background: linear-gradient(155deg, #0e172c, #080f1e);
+}
+
+:root[data-theme="spider-man"] .table-toolbar {
+  background: #0a1122;
+  border-color: #1c2b48;
+}
+
+:root[data-theme="spider-man"] .search-field,
+:root[data-theme="spider-man"] .filter-field {
+  background: #070c18;
+  border-color: #1a2844;
+  color: #94a3b8;
+}
+
+:root[data-theme="spider-man"] .search-field input,
+:root[data-theme="spider-man"] .filter-field select {
+  color: #f1f5f9;
+}
+
+:root[data-theme="spider-man"] .search-field:focus-within,
+:root[data-theme="spider-man"] .filter-field:focus-within {
+  border-color: #00f0ff;
+  box-shadow: 0 0 0 3px rgba(0, 240, 255, 0.15);
+}
+
+:root[data-theme="spider-man"] .table-add {
+  background: #15223c;
+  border-color: #233a64;
+  color: #00f0ff;
+}
+
+:root[data-theme="spider-man"] .table-add:hover {
+  background: #1c2e52;
+  border-color: #00f0ff;
+  color: #ffffff;
+}
+
+:root[data-theme="spider-man"] .transaction-table {
+  background: #091020;
+}
+
+:root[data-theme="spider-man"] .table-head {
+  color: #7b8ea8;
+  border-color: #1c2b48;
+}
+
+:root[data-theme="spider-man"] .transaction-row {
+  border-color: #15223b;
+}
+
+:root[data-theme="spider-man"] .transaction-row:hover {
+  background: #101c34;
+}
+
+:root[data-theme="spider-man"] .amount-income {
+  color: #00f0ff;
+}
+
+:root[data-theme="spider-man"] .category-track,
+:root[data-theme="spider-man"] .budget-track {
+  background: #16243f;
+}
+
+:root[data-theme="spider-man"] .text-button {
+  color: #00f0ff;
+}
+
+:root[data-theme="spider-man"] .insight-note {
+  background: rgba(0, 240, 255, 0.05);
+  border-color: rgba(0, 240, 255, 0.15);
+  color: #94a3b8;
+}
+
+:root[data-theme="spider-man"] .insight-note svg {
+  color: #00f0ff;
+}
+
+:root[data-theme="spider-man"] .transaction-modal {
+  background: linear-gradient(150deg, #111c33, #090f1d);
+  border-color: #233961;
+  color: #f8fafc;
+  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.7);
+}
+
+:root[data-theme="spider-man"] .transaction-modal input,
+:root[data-theme="spider-man"] .transaction-modal select {
+  background: #080d1a;
+  border-color: #1c2b48;
+  color: #f8fafc;
+}
+
+:root[data-theme="spider-man"] .type-switch {
+  background: #080d1a;
+  border-color: #1c2b48;
+}
+
+:root[data-theme="spider-man"] .type-switch button.selected {
+  background: #1e3056;
+  color: #ffffff;
+}
+
+:root[data-theme="spider-man"] .toast {
+  background: #0f192f;
+  border-color: #233961;
+  color: #f8fafc;
+  box-shadow: 0 12px 38px rgba(0, 0, 0, 0.6);
+}
+
+:root[data-theme="spider-man"] .toast>span {
+  background: rgba(230, 57, 70, 0.2);
+  color: #e63946;
+}
+
+:root[data-theme="spider-man"] button:focus-visible,
+:root[data-theme="spider-man"] input:focus-visible,
+:root[data-theme="spider-man"] select:focus-visible,
+:root[data-theme="spider-man"] textarea:focus-visible,
+:root[data-theme="spider-man"] a:focus-visible {
+  outline: 2px solid #00f0ff;
+  outline-offset: 3px;
+}
+
+/* --------------------------------------------------------------------------
+   4. Spider-Man Theme: Money Lens Copilot Overrides
+   -------------------------------------------------------------------------- */
+:root[data-theme="spider-man"] .assistant-launcher {
+  background: linear-gradient(145deg, #ef4454, #d62839);
+  border-color: #ff6b7a;
+  color: #ffffff;
+  box-shadow: 0 12px 38px rgba(0, 0, 0, 0.6), 0 0 28px rgba(230, 57, 70, 0.35);
+}
+
+:root[data-theme="spider-man"] .assistant-launcher:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 42px rgba(0, 0, 0, 0.75), 0 0 34px rgba(230, 57, 70, 0.5);
+}
+
+:root[data-theme="spider-man"] .assistant-launcher.is-open {
+  background: #0d162a;
+  color: #00f0ff;
+  border-color: #243a63;
+}
+
+:root[data-theme="spider-man"] .assistant-panel {
+  background: linear-gradient(155deg, #0e172cf9, #070c18fc 75%);
+  border-color: #21355a;
+  box-shadow: 0 28px 90px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(0, 240, 255, 0.08);
+  color: #e2e8f0;
+}
+
+:root[data-theme="spider-man"] .assistant-header,
+:root[data-theme="spider-man"] .assistant-composer,
+:root[data-theme="spider-man"] .assistant-footnote {
+  background: #0a1122;
+  border-color: #1a2946;
+}
+
+:root[data-theme="spider-man"] .assistant-avatar {
+  background: rgba(230, 57, 70, 0.15);
+  border-color: rgba(230, 57, 70, 0.45);
+  color: #ff5465;
+}
+
+:root[data-theme="spider-man"] .assistant-title strong {
+  color: #f8fafc;
+}
+
+:root[data-theme="spider-man"] .assistant-title>span i {
+  background: #00f0ff;
+}
+
+:root[data-theme="spider-man"] .assistant-orbit-icon {
+  background: radial-gradient(circle, rgba(230, 57, 70, 0.22), transparent 70%);
+  border-color: rgba(230, 57, 70, 0.45);
+  color: #ff5465;
+}
+
+:root[data-theme="spider-man"] .assistant-welcome h2 {
+  color: #f8fafc;
+}
+
+:root[data-theme="spider-man"] .assistant-suggestions button {
+  background: #0e182e;
+  border-color: #1d2f50;
+  color: #cbd5e1;
+}
+
+:root[data-theme="spider-man"] .assistant-suggestions button:hover {
+  background: #162442;
+  border-color: #00f0ff;
+  color: #ffffff;
+}
+
+:root[data-theme="spider-man"] .assistant-suggestions button svg {
+  color: #00f0ff;
+}
+
+:root[data-theme="spider-man"] .assistant-message-icon {
+  background: rgba(230, 57, 70, 0.12);
+  border-color: rgba(230, 57, 70, 0.35);
+  color: #ff6b7a;
+}
+
+:root[data-theme="spider-man"] .assistant-message-user .assistant-message-icon {
+  background: #182846;
+  border-color: #273e6b;
+  color: #00f0ff;
+}
+
+:root[data-theme="spider-man"] .assistant-typing i {
+  background: #e63946;
+}
+
+:root[data-theme="spider-man"] .assistant-send-button {
+  background: #e63946;
+  border-color: #ff6b7a;
+  color: #ffffff;
+}
+
+:root[data-theme="spider-man"] .assistant-tool-button:hover,
+:root[data-theme="spider-man"] .assistant-tool-button.recording {
+  border-color: #00f0ff;
+  color: #00f0ff;
+}
+
+:root[data-theme="spider-man"] .assistant-draft,
+:root[data-theme="spider-man"] .assistant-correction,
+:root[data-theme="spider-man"] .assistant-receipt-details {
+  background: linear-gradient(145deg, #101c34, #0b1324);
+  border-color: #1e3154;
+}
+
+:root[data-theme="spider-man"] .assistant-save-button {
+  background: #e63946;
+  border-color: #ff6b7a;
+  color: #ffffff;
+}
+
+:root[data-theme="spider-man"] .assistant-composer textarea:focus,
+:root[data-theme="spider-man"] .assistant-draft-grid input:focus,
+:root[data-theme="spider-man"] .assistant-draft-grid select:focus {
+  outline: 2px solid #00f0ff;
+  outline-offset: 1px;
+}
+
+:root[data-theme="spider-man"] .assistant-panel button:focus-visible,
+:root[data-theme="spider-man"] .assistant-panel select:focus-visible,
+:root[data-theme="spider-man"] .assistant-panel input:focus-visible,
+:root[data-theme="spider-man"] .assistant-panel textarea:focus-visible,
+:root[data-theme="spider-man"] .assistant-launcher:focus-visible {
+  outline: 2px solid #00f0ff;
+  outline-offset: 2px;
+}
